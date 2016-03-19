@@ -1,7 +1,9 @@
 package Comunicacion;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -21,6 +23,12 @@ public class Comunicacion extends Observable implements Runnable  {
     private InetAddress ip;
     private DatagramSocket socket;
     private Boolean ingresar;
+    private Mensaje msj;
+
+
+
+    private String carreraDato;
+     private String edad;
 
 
 
@@ -75,19 +83,34 @@ public class Comunicacion extends Observable implements Runnable  {
             System.out.println("esperando");
             socket.receive(pack);
 
+            if (pack.getData() != null) {
+                msj = deserializar(pack.getData());
+                System.out.println(msj.getTipo());
+            }
+
             System.out.println("recibi");
             //  ingresar = Boolean.parseBoolean(pack.getData().toString());
             respuesta= new String(pack.getData(),0,pack.getLength());
 
-            if (respuesta.equals("true")){
+            if (msj.getTipo().equals("true")){
                 ingresar=true;
                 setChanged();
                 notifyObservers();
+                clearChanged();
                 System.out.println("respuesta : " + ingresar);
             }
-            if (respuesta.equals("false")){
+            if (msj.getTipo().equals("false")){
                 setChanged();
                 notifyObservers();
+                clearChanged();
+                System.out.println("respuesta : " + ingresar);
+            }
+            if (msj.getTipo().equals("resDatos")){
+                carreraDato=msj.getCarrera();
+                 edad=msj.getEdad();
+                setChanged();
+                notifyObservers();
+                clearChanged();
                 System.out.println("respuesta : " + ingresar);
             }
 
@@ -121,12 +144,36 @@ public class Comunicacion extends Observable implements Runnable  {
         return bytes.toByteArray();
     }
 
+    public Mensaje deserializar(byte[] bytes) {
+        ByteArrayInputStream byteArray = new ByteArrayInputStream(bytes);
+        Mensaje aux = null;
+        try {
+            ObjectInputStream is = new ObjectInputStream(byteArray);
+            aux = (Mensaje) is.readObject();
+            is.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return aux;
+    }
+
     public String getRespuesta() {
         return respuesta;
     }
 
     public Boolean getIngresar() {
         return ingresar;
+    }
+    public String getCarreraDato() {
+        return carreraDato;
+    }
+
+    public String getEdad() {
+        return edad;
     }
 
 }

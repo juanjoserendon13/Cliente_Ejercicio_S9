@@ -23,6 +23,7 @@ public class MainActivity extends Activity implements Observer {
     Mensaje msj;
     Comunicacion com;
     Boolean ingreso=false;
+    String nombreUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,8 @@ public class MainActivity extends Activity implements Observer {
         registrar = (Button) findViewById(R.id.registro_btn);
         ingresar = (Button) findViewById(R.id.login_btn);
 
+
+
         registrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), Registro.class);
@@ -55,6 +58,8 @@ public class MainActivity extends Activity implements Observer {
                         msj = new Mensaje("Ingreso", nombre.getText().toString(), contra.getText().toString(),"prueba","prueba");
                         nuevaTarea = new Tarea();
                         nuevaTarea.execute(msj);
+                        nombreUser=nombre.getText().toString();
+
 
 
 
@@ -99,6 +104,8 @@ public class MainActivity extends Activity implements Observer {
                 @Override
                 public void run() {
                     Intent i = new Intent(getApplicationContext(), Datos.class);
+                    i.putExtra("nombreUser", nombreUser);
+                    System.out.println("nombre del usuario"+" "+nombreUser);
                     startActivity(i);
                 }
             });

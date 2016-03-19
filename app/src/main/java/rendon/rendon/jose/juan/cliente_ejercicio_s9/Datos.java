@@ -1,16 +1,51 @@
 package rendon.rendon.jose.juan.cliente_ejercicio_s9;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-public class Datos extends Activity {
+import java.util.Observable;
+import java.util.Observer;
 
-    @Override
+import Comunicacion.Comunicacion;
+import Comunicacion.Mensaje;
+
+public class Datos extends Activity implements Observer {
+
+    TextView nombre, carrera,edad;
+    Tarea nuevaTarea;
+    Mensaje msj;
+    Comunicacion com;
+    String usuarioLogin,carreraDato,edadDato;
+
+       @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datos);
+
+        Intent launch = getIntent();
+
+        usuarioLogin = launch.getStringExtra("nombreUser");
+           //String usuarioLogin="Juan";
+        nuevaTarea= new Tarea();
+        com=Comunicacion.getInstance();
+        com.addObserver(this);
+
+        nombre = (TextView) findViewById(R.id.usuarioDash_tv);
+        carrera = (TextView) findViewById(R.id.carreraDash_tv);
+        edad = (TextView) findViewById(R.id.edadDash_tv);
+
+           ////////////
+           nombre.setText(usuarioLogin);
+
+
+        msj = new Mensaje("datos", nombre.getText().toString(),"","","");
+        nuevaTarea = new Tarea();
+        nuevaTarea.execute(msj);
+
     }
 
     @Override
@@ -33,5 +68,25 @@ public class Datos extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        carreraDato=((Comunicacion)observable).getCarreraDato();
+        edadDato=((Comunicacion)observable).getEdad();
+        System.out.println("carrera del usuario"+" "+carreraDato);
+        System.out.println("edad del usuario"+" "+edadDato);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                 carrera.setText(carreraDato);
+                edad.setText(edadDato);
+
+            }
+        });
+
+
     }
 }
