@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="rendon.rendon.jose.juan.cliente_ejercicio_s9.Registro"
+    android:id="@+id/rendon.rendon.jose.juan">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nombre_tv"
+        android:layout_alignParentTop="true"
+        android:hint="usuario"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="66dp"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contrasena_tv"
+        android:layout_below="@+id/nombre_tv"
+        android:hint="contraseña"
+        android:inputType="textPassword"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="44dp"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/repetirContra_tv"
+        android:hint="repetir contraseña"
+        android:inputType="textPassword"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/contrasena_tv" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/carrera_tv"
+        android:hint="ingresar carrera"
+        android:layout_below="@+id/repetirContra_tv"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="41dp"
+        android:layout_alignEnd="@+id/repetirContra_tv" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edad_tv"
+        android:hint="ingresar edad"
+        android:layout_below="@+id/carrera_tv"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/carrera_tv" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continuar"
+        android:id="@+id/continuar_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
