@@ -33,6 +33,7 @@ public class Comunicacion extends Observable implements Runnable  {
 
 
     String respuesta;
+    private String tipo;
     Thread hilo;
 
     private Comunicacion() {
@@ -51,8 +52,8 @@ public class Comunicacion extends Observable implements Runnable  {
 
 
         try {
-            ip = InetAddress.getByName("10.0.2.2");
-            //ip = InetAddress.getByName("192.168.1.14");
+           //ip = InetAddress.getByName("10.0.2.2");
+           ip = InetAddress.getByName("192.168.1.52");
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -76,6 +77,9 @@ public class Comunicacion extends Observable implements Runnable  {
             }
         }
     }
+
+
+
     public void recibir(){
         byte[] buzon = new byte[1024];
         try {
@@ -108,6 +112,7 @@ public class Comunicacion extends Observable implements Runnable  {
             if (msj.getTipo().equals("resDatos")){
                 carreraDato=msj.getCarrera();
                  edad=msj.getEdad();
+                tipo=msj.getTipo();
                 setChanged();
                 notifyObservers();
                 clearChanged();
@@ -170,6 +175,9 @@ public class Comunicacion extends Observable implements Runnable  {
     }
     public String getCarreraDato() {
         return carreraDato;
+    }
+    public String getTipo() {
+        return tipo;
     }
 
     public String getEdad() {

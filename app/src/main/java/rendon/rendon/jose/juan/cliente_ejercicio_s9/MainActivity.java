@@ -25,6 +25,16 @@ public class MainActivity extends Activity implements Observer {
     Boolean ingreso=false;
     String nombreUser;
 
+    protected void onResume(){
+        Comunicacion.getInstance().addObserver(this);
+        super.onResume();
+    }
+    @Override
+    protected void onPause(){
+        Comunicacion.getInstance().deleteObserver(this);
+        super.onPause();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +103,8 @@ public class MainActivity extends Activity implements Observer {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     public void update(Observable observable, Object data) {
         if (((Comunicacion)observable).getIngresar()==true ) {
@@ -100,17 +112,18 @@ public class MainActivity extends Activity implements Observer {
             ingreso=((Comunicacion)observable).getIngresar();
           //  Intent i = new Intent(getApplicationContext(), Datos.class);
           //  startActivity(i);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Intent i = new Intent(getApplicationContext(), Datos.class);
-                    i.putExtra("nombreUser", nombreUser);
-                    System.out.println("nombre del usuario"+" "+nombreUser);
-                    startActivity(i);
-                }
-            });
+
 
         }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(getApplicationContext(), Datos.class);
+                i.putExtra("nombreUser", nombreUser);
+                System.out.println("nombre del usuario"+" "+nombreUser);
+                startActivity(i);
+            }
+        });
 
     }
 }

@@ -20,6 +20,19 @@ public class Datos extends Activity implements Observer {
     Mensaje msj;
     Comunicacion com;
     String usuarioLogin,carreraDato,edadDato;
+    String tipo;
+
+
+
+   /*
+    protected void onPause(){
+        Comunicacion.getInstance().deleteObserver(this);
+        super.onPause();
+    }
+    protected void onResume(){
+        Comunicacion.getInstance().addObserver(this);
+        super.onResume();
+    }*/
 
        @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +50,22 @@ public class Datos extends Activity implements Observer {
         nombre = (TextView) findViewById(R.id.usuarioDash_tv);
         carrera = (TextView) findViewById(R.id.carreraDash_tv);
         edad = (TextView) findViewById(R.id.edadDash_tv);
+           runOnUiThread(new Runnable() {
+               @Override
+               public void run() {
+                   nombre.setText(usuarioLogin);
+
+               }
+           });
+
 
            ////////////
-           nombre.setText(usuarioLogin);
 
 
-        msj = new Mensaje("datos", nombre.getText().toString(),"","","");
-        nuevaTarea = new Tarea();
-        nuevaTarea.execute(msj);
+           msj = new Mensaje("datos", nombre.getText().toString(), "", "", "");
+           nuevaTarea = new Tarea();
+               nuevaTarea.execute(msj);
+
 
     }
 
@@ -74,15 +95,21 @@ public class Datos extends Activity implements Observer {
     public void update(Observable observable, Object data) {
         carreraDato=((Comunicacion)observable).getCarreraDato();
         edadDato=((Comunicacion)observable).getEdad();
-        System.out.println("carrera del usuario"+" "+carreraDato);
-        System.out.println("edad del usuario"+" "+edadDato);
+        // tipo=((Comunicacion)observable).getTipo();
+        System.out.println("carrera del usuario" + " " + ((Comunicacion) observable).getCarreraDato());
+        System.out.println("edad del usuario" + " " + ((Comunicacion) observable).getEdad());
+
+      //  carrera.setText(((Comunicacion) observable).getCarreraDato());
+       // edad.setText(((Comunicacion) observable).getEdad());
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
-                 carrera.setText(carreraDato);
+                carrera.setText(carreraDato);
                 edad.setText(edadDato);
+
+                // carrera.setText(carreraDato);
+               // edad.setText(edadDato);
 
             }
         });
